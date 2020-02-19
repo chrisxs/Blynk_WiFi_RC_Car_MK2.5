@@ -18,7 +18,7 @@
 #include "SSD1306Wire.h" // legacy include: `#include "SSD1306.h"
 
 SSD1306Wire display(0x3c, D7, D6);
-BlynkTimer timer; //为电压传感器引用计时器，名称为timer
+BlynkTimer timer;           //clean 为电压传感器引用计时器，名称为timer
 
 const int voltagePin = A0; //电压传感器引脚
 float voltage1 = 0;        //接受模拟借口的变量，类型为整数
