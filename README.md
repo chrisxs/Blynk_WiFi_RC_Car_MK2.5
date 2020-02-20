@@ -1,11 +1,16 @@
-#  **开发板:** 
-> 原型机-NodeMCU v2(CP2102)+L293D扩展板 
+#  **以往版本的选型历史记录:** 
 
-> MK.1.1-NodeMCU v2(CP2102)+L293D扩展板  
+- 原型机-NodeMCU v2(CP2102)+L293D扩展板 
 
-> MK.2.1-NodeMCU v3(CH340)+L293D驱动模块
+- MK.1.1-NodeMCU v2(CP2102)+L293D扩展板  
 
-> MK.2.2-NodeMCU v2(CP2102)+L293D扩展板
+- MK.2.1-NodeMCU v3(CH340)+L293D驱动模块
+
+- MK.2.2-NodeMCU v2(CP2102)+L293D扩展板
+
+
+<center>MK1为遥感版,MK2系列为按钮版</center>
+
 
 # **ArduinoIDE:**
 - IDE版本:1.8.10

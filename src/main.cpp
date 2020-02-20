@@ -21,7 +21,6 @@ SSD1306Wire display(0x3c, D7, D6);
 BlynkTimer timer; //clean 为电压传感器引用计时器，名称为timer
 
 const int voltagePin = A0; //电压传感器引脚
-float voltage1 = 0;        //接受模拟借口的变量，类型为整数
 float R1 = 30000;          //声明R1电阻值，即为：30KΩ
 float R2 = 7500;           //声明R2电阻值，即为：7.5KΩ
 
@@ -36,7 +35,7 @@ int motor_speed_V;
 
 const int ResetButton = D5; //设置用于自定义重置WIFI存储信息的按键引脚
 
-char blynk_token[34] = "e57b6ae1609e461c9fe5f46714b7b00a";
+char blynk_token[34] = "请输入你的TokenKEY";
 
 bool shouldSaveConfig = false;
 
@@ -180,6 +179,8 @@ void Blink()
   digitalWrite(LEDPin, HIGH);
   delay(500);
   digitalWrite(LEDPin, LOW);
+  delay(500);
+  digitalWrite(LEDPin, HIGH);
 }
 
 void setup()
@@ -231,8 +232,6 @@ void setup()
         if (json.success())
         {
           Serial.println("\nparsed json");
-          //strcpy(server, json["server"]);
-          //strcpy(port, json["port"]);
           strcpy(blynk_token, json["blynk_token"]);
         }
         else
@@ -296,7 +295,7 @@ void setup()
   //if it does not connect it starts an access point with the specified name
   //here  "AutoConnectAP"
   //and goes into a blocking loop awaiting configuration
-  if (!wifiManager.autoConnect("Blynk_WIFI_Car_MK.II.V", ""))
+  if (!wifiManager.autoConnect("Blynk_WIFI_Car_MK2.5"))
   {
     Serial.println("failed to connect and hit timeout");
     delay(3000);
@@ -331,7 +330,7 @@ void setup()
   }
   Serial.println("local ip");
   Serial.println(WiFi.localIP());
-  ArduinoOTA.setHostname("Blynk_WIFI_Car_MK.II.V");
+  ArduinoOTA.setHostname("Blynk_WIFI_Car_MK2.5");
   ArduinoOTA.onStart([]() {
     String type;
     if (ArduinoOTA.getCommand() == U_FLASH)
@@ -386,7 +385,7 @@ void setup()
 void loop()
 {
   int VoltageState = analogRead(voltagePin);                             //暂存A0的数值，类型为整数（0-1023）
-  float Votage = (3.313 * VoltageState * (R1 + R2)) / (1024 * R2) - 0.5; //暂存A0的数值，类型为浮点
+  float Votage = (3.3 * VoltageState * (R1 + R2)) / (1024 * R2) ; //暂存A0的数值，类型为浮点
   display.clear();
   display.setTextAlignment(TEXT_ALIGN_LEFT);
   display.setFont(ArialMT_Plain_10);
