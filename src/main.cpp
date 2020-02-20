@@ -89,7 +89,7 @@ void saveConfigCallback()
 void voltageRead()
 {                                                                        //电压传感器自定义函数
   int VoltageState = analogRead(voltagePin);                             //暂存A0的数值，类型为整数（0-1023）
-  float Votage = (3.313 * VoltageState * (R1 + R2)) / (1024 * R2) - 0.5; //暂存A0的数值，类型为浮点
+  float Votage = (3.313 * VoltageState * (R1 + R2)) / (1024 * R2) - 0.4; //暂存A0的数值，类型为浮点
   Blynk.virtualWrite(V0, Votage);                                        //写入blynk的V0
 }
 
@@ -385,7 +385,7 @@ void setup()
 void loop()
 {
   int VoltageState = analogRead(voltagePin);                             //暂存A0的数值，类型为整数（0-1023）
-  float Votage = (3.3 * VoltageState * (R1 + R2)) / (1024 * R2) ; //暂存A0的数值，类型为浮点
+  float Votage = (3.3 * VoltageState * (R1 + R2)) / (1024 * R2) - 0.4; //暂存A0的数值，类型为浮点
   display.clear();
   display.setTextAlignment(TEXT_ALIGN_LEFT);
   display.setFont(ArialMT_Plain_10);
