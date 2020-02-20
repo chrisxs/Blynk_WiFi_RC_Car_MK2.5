@@ -18,7 +18,7 @@
 #include "SSD1306Wire.h" // legacy include: `#include "SSD1306.h"
 
 SSD1306Wire display(0x3c, D7, D6);
-BlynkTimer timer;           //clean 为电压传感器引用计时器，名称为timer
+BlynkTimer timer; //clean 为电压传感器引用计时器，名称为timer
 
 const int voltagePin = A0; //电压传感器引脚
 float voltage1 = 0;        //接受模拟借口的变量，类型为整数
@@ -35,7 +35,6 @@ int motor_speed = 0;
 int motor_speed_V;
 
 const int ResetButton = D5; //设置用于自定义重置WIFI存储信息的按键引脚
-int ResetButtonState = digitalRead(ResetButton);
 
 char blynk_token[34] = "e57b6ae1609e461c9fe5f46714b7b00a";
 
@@ -204,11 +203,9 @@ void setup()
   pinMode(dir_A, OUTPUT); // DIR A
   pinMode(dir_B, OUTPUT); // DIR B
   pinMode(LEDPin, OUTPUT);
+  int ResetButtonState = digitalRead(ResetButton);
   pinMode(ResetButton, INPUT);
   digitalWrite(LEDPin, HIGH);
-
-  //清空FS,保留测试用
-  //SPIFFS.format();
 
   //从FS json中读取配置
   Serial.println("mounting FS...");
@@ -255,9 +252,7 @@ void setup()
   // The extra parameters to be configured (can be either global or just in the setup)
   // After connecting, parameter.getValue() will get you the configured value
   // id/name placeholder/prompt default length
-  //WiFiManagerParameter custom_server("server", "server", server, 40);
-  //WiFiManagerParameter custom_port("port", "port", port, 6);
-  WiFiManagerParameter custom_blynk_token("blynk", "序列号", blynk_token, 32);
+  WiFiManagerParameter custom_blynk_token("blynk", "序列号", blynk_token, 34);
 
   //WiFiManager
   //Local intialization. Once its business is done, there is no need to keep it around
@@ -266,29 +261,8 @@ void setup()
   //set config save notify callback
   wifiManager.setSaveConfigCallback(saveConfigCallback);
 
-  //设置静态IP
-  //wifiManager.setSTAStaticIPConfig(IPAddress(10,0,1,99), IPAddress(10,0,1,1), IPAddress(255,255,255,0));
-
   //在这里增加参数
-  //wifiManager.addParameter(&custom_server);
-  //wifiManager.addParameter(&custom_port);
   wifiManager.addParameter(&custom_blynk_token);
-
-  /*if (digitalRead(SET_PIN) == LOW) {
-    wifiManager.resetSettings();
-    }*/
-
-  //reset settings - for testing
-  //wifiManager.resetSettings();
-
-  //set minimu quality of signal so it ignores AP's under that quality
-  //defaults to 8%
-  //wifiManager.setMinimumSignalQuality();
-
-  //sets timeout until configuration portal gets turned off
-  //useful to make it all retry or go to sleep
-  //in seconds
-  //wifiManager.setTimeout(120);
 
   if (ResetButtonState == HIGH)
   {
@@ -335,6 +309,7 @@ void setup()
 
   //read updated parameters
   strcpy(blynk_token, custom_blynk_token.getValue());
+
 
   //save the custom parameters to FS
   if (shouldSaveConfig)
@@ -404,7 +379,7 @@ void setup()
   Serial.println("Ready");
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
-  Blynk.config(blynk_token, "www.chrisxs.com", 8080);
+  Blynk.config(blynk_token, "chrisxs.top", 8080);
   timer.setInterval(1000L, voltageRead);
 }
 
@@ -412,8 +387,6 @@ void loop()
 {
   int VoltageState = analogRead(voltagePin);                             //暂存A0的数值，类型为整数（0-1023）
   float Votage = (3.313 * VoltageState * (R1 + R2)) / (1024 * R2) - 0.5; //暂存A0的数值，类型为浮点
-  float Percent = Votage;
-  //Percent = map(Percent,0, 8.4, 0, 100);
   display.clear();
   display.setTextAlignment(TEXT_ALIGN_LEFT);
   display.setFont(ArialMT_Plain_10);
